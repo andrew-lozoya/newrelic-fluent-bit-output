@@ -81,7 +81,7 @@ RUN mkdir C:\\Temp
 
 #TODO set version veribles
 
-RUN curl https://fluentbit.io/releases/1.5/td-agent-bit-1.5.2-win64.exe -o /Temp/td-agent-bit-1.5.2-win64.zip
+RUN curl https://fluentbit.io/releases/1.5/td-agent-bit-1.5.2-win64.zip -o /Temp/td-agent-bit-1.5.2-win64.zip
 
 WORKDIR /fluent-bit
 
