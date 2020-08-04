@@ -81,11 +81,11 @@ RUN mkdir C:\\Temp
 
 #TODO set version veribles
 
-RUN curl https://fluentbit.io/releases/1.5/td-agent-bit-1.5.1-win64.zip -o /Temp/td-agent-bit-1.5.1-win64.zip
+RUN curl https://fluentbit.io/releases/1.5/td-agent-bit-1.5.2-win64.exe -o /Temp/td-agent-bit-1.5.2-win64.zip
 
 WORKDIR /fluent-bit
 
-RUN tar -xf /Temp/td-agent-bit-1.5.1-win64.zip --strip=1 td-agent-bit-1.5.1-win64
+RUN tar -xf /Temp/td-agent-bit-1.5.2-win64.zip --strip=1 td-agent-bit-1.5.2-win64
 
 RUN rmdir C:\\Temp /s /q
 
