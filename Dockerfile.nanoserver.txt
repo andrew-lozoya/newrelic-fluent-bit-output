@@ -1,0 +1,22 @@
+# escape=`
+
+FROM mcr.microsoft.com/windows/nanoserver:1809-amd64
+
+USER ContainerAdministrator
+
+RUN mkdir C:\\Temp
+
+RUN curl https://fluentbit.io/releases/1.5/td-agent-bit-1.5.1-win64.zip -o /Temp/td-agent-bit-1.5.1-win64.zip
+
+WORKDIR /fluent-bit
+
+#TODO set version veribles
+
+RUN tar -xf /Temp/td-agent-bit-1.5.1-win64.zip --strip=1 td-agent-bit-1.5.1-win64
+
+RUN rmdir C:\\Temp /s /q
+
+COPY --from=builder /go/src/github.com/newrelic/newrelic-fluent-bit-output/out_newrelic.so /fluent-bit/bin/
+COPY *.conf /fluent-bit/etc/
+
+CMD ["cmd", "/c", "/fluent-bit/bin/fluent-bit.exe", "-c", "/fluent-bit/etc/fluent-bit.conf", "-e", "/fluent-bit/bin/out_newrelic.so" ]

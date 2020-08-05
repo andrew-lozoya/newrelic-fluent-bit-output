@@ -1,0 +1,25 @@
+FROM golang:1.15rc1-nanoserver-1809 AS builder
+
+USER ContainerAdministrator
+
+WORKDIR /go/src/github.com/newrelic/newrelic-fluent-bit-output
+
+COPY Makefile go.* *.go /go/src/github.com/newrelic/newrelic-fluent-bit-output/
+COPY config/ /go/src/github.com/newrelic/newrelic-fluent-bit-output/config
+COPY nrclient/ /go/src/github.com/newrelic/newrelic-fluent-bit-output/nrclient
+COPY record/ /go/src/github.com/newrelic/newrelic-fluent-bit-output/record
+COPY utils/ /go/src/github.com/newrelic/newrelic-fluent-bit-output/utils
+
+ENV SOURCE docker
+
+RUN go get github.com/fluent/fluent-bit-go/output
+RUN make all
+
+FROM mcr.microsoft.com/windows/nanoserver:1809-amd64
+
+COPY fluent-bit C:
+
+COPY --from=builder /go/src/github.com/newrelic/newrelic-fluent-bit-output/out_newrelic_win64.dll C:\fluent-bit\bin
+COPY *.conf C:\fluent-bit\etc
+
+CMD ["cmd", "/C" , "C:\\fluent-bit\\bin\\fluent-bit.exe", "-c", "C:\\fluent-bit\\etc\\fluent-bit.conf", "-e", "C:\\fluent-bit\\bin\\out_newrelic_win64.dll"]
