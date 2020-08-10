@@ -83,7 +83,7 @@ RUN curl https://fluentbit.io/releases/1.5/td-agent-bit-1.5.2-win64.zip -o /Temp
 
 WORKDIR /fluent-bit
 
-#TODO set version veribles
+#TODO set version variables
 
 RUN tar -xf /Temp/td-agent-bit-1.5.2-win64.zip --strip=1 td-agent-bit-1.5.2-win64
 
